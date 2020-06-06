@@ -1,5 +1,6 @@
 .depend
 .idea
+data
 
 # Prerequisites
 *.d
@@ -30,7 +31,7 @@
 *.lib
 
 # Executables
-pricer
+j2data
 *.exe
 *.out
 *.app
