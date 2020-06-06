@@ -10,6 +10,7 @@
 #include <ctime>
 
 class TimeSeries {
+    std::string m_symbol;
     std::vector<tm> m_times;
     std::vector<double> m_open;
     std::vector<double> m_close;
