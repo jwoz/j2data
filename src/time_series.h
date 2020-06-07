@@ -8,41 +8,37 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <memory>
 #include <map>
-
-class tm_compare {
-public:
-    constexpr bool operator()(const std::tm &lhs, const std::tm &rhs) const {
-        if (lhs.tm_year < rhs.tm_year) return true;
-        if (lhs.tm_year > rhs.tm_year) return false;
-        if (lhs.tm_mon < rhs.tm_mon) return true;
-        if (lhs.tm_mon > rhs.tm_mon) return false;
-        if (lhs.tm_mday < rhs.tm_mday) return true;
-        if (lhs.tm_mday > rhs.tm_mday) return false;
-        if (lhs.tm_hour < rhs.tm_hour) return true;
-        if (lhs.tm_hour > rhs.tm_hour) return false;
-        if (lhs.tm_min < rhs.tm_min) return true;
-        if (lhs.tm_min > rhs.tm_min) return false;
-        // TODO time zones and seconds etc or
-        return false;
-    };
-};
+#include "types.h"
 
 
 class TimeSeries {
     std::string m_symbol;
-    std::map<tm, int, tm_compare> m_times;
-    std::vector<double> m_open;
-    std::vector<double> m_close;
-    std::vector<double> m_high;
-    std::vector<double> m_low;
+    map_time_t m_times;
+    std::vector<std::string> m_columns;
+    vec_vec_dbl_t m_data;
 public:
+    TimeSeries(map_time_t times, vec_string_t columns, vec_vec_dbl_t  data);
+
     explicit TimeSeries(const std::string &filename, const std::string &period = "1d");
 
     virtual ~TimeSeries() = default;
 
+    std::unique_ptr<TimeSeries> range(const tm &t0, const tm &t1) const;
+
+
     long count() const;
+
     std::string symbol() const;
+
+    tm minimum_time() const;
+
+    tm maximum_time() const;
+
+    std::string asc_minimum_time() const;
+
+    std::string asc_maximum_time() const;
 
 };
 
