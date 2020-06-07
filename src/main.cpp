@@ -49,9 +49,11 @@ int main()
     vec_dbl_t sma = simpleMovingAverage(*(ts_sub->get("open")), 3);
     vec_dbl_t ema = exponentialMovingAverage(*(ts_sub->get("open")), 0.1);
     vec_dbl_t vols = volatility(*(ts_sub->get("open")), 10);
+    vec_dbl_t covs = covariance(*(ts_sub->get("open")), *(ts_sub->get("close")), 10);
     ts_sub->add("open_sma3", sma);
     ts_sub->add("open_ema", ema);
     ts_sub->add("open_vol10", vols);
+    ts_sub->add("open_close_covar", covs);
 
     ts_sub->print();
     return 0;

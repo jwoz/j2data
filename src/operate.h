@@ -13,5 +13,6 @@ vec_dbl_t logReturn(const vec_dbl_t &values);
 
 vec_dbl_t standardDeviation(const vec_dbl_t &values, uint p);
 vec_dbl_t volatility(const vec_dbl_t & values, uint p);
+vec_dbl_t covariance(const vec_dbl_t &v1, const vec_dbl_t &v2, uint p);
 
 #endif //J2DATA_OPERATE_H
