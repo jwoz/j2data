@@ -73,8 +73,7 @@ std::unique_ptr<TimeSeries> TimeSeries::range(const tm &t0, const tm &t1) const 
     int i0 = first->second;
     int i1 = last->second;
 
-    std::for_each(v_times.begin(), v_times.end(), [i0](std::pair<tm, int> p) -> std::pair<tm, int> { return std::pair<tm, int>(p.first, p.second - i0); });
-
+    std::for_each(v_times.begin(), v_times.end(), [i0](std::pair<const tm, int> &p) { p.second -= i0; });
 
     vec_vec_dbl_t data;
     for (const auto &it : m_data) {
