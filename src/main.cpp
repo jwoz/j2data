@@ -47,7 +47,9 @@ int main()
 
     std::cout << "Simple moving average" << std::endl;
     vec_dbl_t sma = simpleMovingAverage(*(ts_sub->get("open")), 3);
-    ts_sub->add("open_sma2", sma);
+    vec_dbl_t ema = exponentialMovingAverage(*(ts_sub->get("open")), 0.1);
+    ts_sub->add("open_sma3", sma);
+    ts_sub->add("open_ema", ema);
     ts_sub->print();
     return 0;
 };

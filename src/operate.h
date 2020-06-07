@@ -8,6 +8,7 @@
 #include "types.h"
 
 vec_dbl_t simpleMovingAverage(const vec_dbl_t & values, uint p);
+vec_dbl_t exponentialMovingAverage(const vec_dbl_t & values, double alpha);
 
 
 #endif //J2DATA_OPERATE_H
