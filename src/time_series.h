@@ -45,7 +45,7 @@ public:
 
     const vec_dbl_t * get(const std::string &name) const;
 
-    void add(const std::string &name, const vec_dbl_t &data);
+    void add(std::string name, vec_dbl_t data);
 
 };
 

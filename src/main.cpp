@@ -27,6 +27,12 @@ int main()
 
     cout << "The local date and time is: " << dt << endl;
 
+    // vector of strings
+    vec_string_t strings = {"abc", "def"};
+    cout << strings[0] << endl;
+    auto idx = findElement<string>(strings, "def");
+    cout << idx.first << " " << idx.second << endl;
+
     // read time series
     auto ts_daily = make_shared<TimeSeries>("data/timeseries_1d.csv");
     auto ts_60min = make_shared<TimeSeries>("data/timeseries_60m.csv", "60m");
@@ -39,13 +45,14 @@ int main()
     auto ts_sub = ts_daily->range(create_tm(2020, 1, 1), create_tm(2020, 3, 1));
     ts_sub->print();
 
-    vec_dbl_t sma = movingAverage(*(ts_sub->get("Open")), 20);
-
+    std::cout << "Simple moving average" << std::endl;
+    vec_dbl_t sma = simpleMovingAverage(*(ts_sub->get("open")), 3);
+    ts_sub->add("open_sma2", sma);
+    ts_sub->print();
     return 0;
 };
 
 // TODO
-// compute a moving average
 // interpolate missing values
 // compute standard deviation/ volatility
 // GARCH/ ARIMA

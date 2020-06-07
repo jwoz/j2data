@@ -17,9 +17,10 @@ TimeSeries::TimeSeries(map_time_t times, vec_string_t columns, vec_vec_dbl_t dat
 
 
 TimeSeries::TimeSeries(const std::string &filename, const std::string &period)
+        : m_columns{"open", "close", "high", "low"}
 {
     io::CSVReader<9> in(filename);
-    m_columns = {"open", "close", "high", "low"};
+
     std::string Datetime;
     double Open, High, Low, Close;
     int Volume;
@@ -92,6 +93,7 @@ std::unique_ptr<TimeSeries> TimeSeries::range(const tm &t0, const tm &t1) const
         }
         data.push_back(v);
     }
+
     std::unique_ptr<TimeSeries> ts(new TimeSeries(v_times, m_columns, data));
     return ts;
 }
@@ -132,6 +134,11 @@ std::string TimeSeries::asc_maximum_time() const
 
 void TimeSeries::print() const
 {
+    for (const auto &it : m_columns)
+    {
+        std::cout << it << " ";
+    }
+    std::cout << std::endl;
     for (const auto &it : m_times)
     {
         std::cout << to_string_tm(it.first);
@@ -145,19 +152,20 @@ void TimeSeries::print() const
 
 }
 
-void TimeSeries::add(const std::string &name, const vec_dbl_t &data)
+void TimeSeries::add(std::string name, vec_dbl_t data)
 {
-    m_columns.push_back(name);
-    m_data.push_back(data);
+    m_columns.push_back(std::move(name));
+    m_data.push_back(std::move(data));
 }
 
-const vec_dbl_t * TimeSeries::get(const std::string & name) const
+const vec_dbl_t *TimeSeries::get(const std::string &name) const
 {
-    auto index = findElement(m_columns, name);
-    if (!index.first){
+    auto index = findElement<std::string>(m_columns, name);
+    if (!index.first)
+    {
         std::cout << "ERROR: column " << name << " does not exist in time series." << std::endl;
         return nullptr;
     }
-    return & m_data[index.second];
+    return &m_data[index.second];
 }
 

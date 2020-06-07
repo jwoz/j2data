@@ -1,5 +1,4 @@
 #include <vector>
-#include <algorithm>
 #include "tools.h"
 
 tm create_tm(int year, int month, int day, int hour, int minute, int second)
@@ -25,12 +24,3 @@ std::string to_string_tm(const tm &t)
     return std::to_string(t.tm_year) + zero_padded(t.tm_mon + 1) + zero_padded(t.tm_mday) + "T" + zero_padded(t.tm_hour) + zero_padded(t.tm_min);
 }
 
-template<typename T>
-std::pair<bool, int> findElement(const std::vector<T> &vec, const T &element)
-{
-    std::pair<bool, int> result;
-    auto it = std::find(vec.begin(), vec.end(), element);
-    if (it != vec.end())
-        return {true, distance(vec.begin(), it)};
-    return {false, -1};
-}
