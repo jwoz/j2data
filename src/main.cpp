@@ -47,19 +47,18 @@ int main()
 
     std::cout << "Simple moving average" << std::endl;
     vec_dbl_t sma = simpleMovingAverage(*(ts_sub->get("open")), 3);
-    vec_dbl_t ema = exponentialMovingAverage(*(ts_sub->get("open")), 0.1);
-    vec_dbl_t vols = volatility(*(ts_sub->get("open")), 10);
-    vec_dbl_t covs = covariance(*(ts_sub->get("open")), *(ts_sub->get("close")), 10);
     ts_sub->add("open_sma3", sma);
+    vec_dbl_t ema = exponentialMovingAverage(*(ts_sub->get("open")), 0.1);
     ts_sub->add("open_ema", ema);
-    ts_sub->add("open_vol10", vols);
-    ts_sub->add("open_close_covar", covs);
+    ts_sub->add("open_vol10", volatility(*(ts_sub->get("open")), 10));
+    ts_sub->add("open_close_covar10", covariance(*(ts_sub->get("open")), *(ts_sub->get("close")), 10));
 
     ts_sub->print();
     return 0;
 };
 
 // TODO
+// join
 // interpolate missing values
 // GARCH/ ARIMA
 // portfolio optimization
