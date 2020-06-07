@@ -8,9 +8,11 @@
 #include <vector>
 #include <map>
 
-class tm_compare {
+class tm_compare
+{
 public:
-    constexpr bool operator()(const tm &lhs, const tm &rhs) const {
+    constexpr bool operator()(const tm &lhs, const tm &rhs) const
+    {
         if (lhs.tm_year < rhs.tm_year) return true;
         if (lhs.tm_year > rhs.tm_year) return false;
         if (lhs.tm_mon < rhs.tm_mon) return true;

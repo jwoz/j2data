@@ -6,7 +6,8 @@
 #define J2DATA_PORTFOLIO_H
 
 
-class portfolio {
+class portfolio
+{
 
 };
 

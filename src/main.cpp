@@ -9,7 +9,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     // ctime gymnastics
     time_t now = time(0);
     cout << "Number of sec since January 1,1970:" << now << endl;
@@ -34,7 +35,7 @@ int main() {
     ts_daily->print();
 
     std::cout << "Extract sub range" << std::endl;
-    auto ts_sub = ts_daily->range(create_tm(2020,1,1), create_tm(2020,3,1));
+    auto ts_sub = ts_daily->range(create_tm(2020, 1, 1), create_tm(2020, 3, 1));
     ts_sub->print();
 
     return 0;
