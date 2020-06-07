@@ -48,17 +48,17 @@ int main()
     std::cout << "Simple moving average" << std::endl;
     vec_dbl_t sma = simpleMovingAverage(*(ts_sub->get("open")), 3);
     vec_dbl_t ema = exponentialMovingAverage(*(ts_sub->get("open")), 0.1);
+    vec_dbl_t vols = volatility(*(ts_sub->get("open")), 10);
     ts_sub->add("open_sma3", sma);
     ts_sub->add("open_ema", ema);
+    ts_sub->add("open_vol10", vols);
+
     ts_sub->print();
     return 0;
 };
 
 // TODO
 // interpolate missing values
-// compute standard deviation/ volatility
 // GARCH/ ARIMA
 // portfolio optimization
 // integer programming
-
-// ==>> which libraries to use???

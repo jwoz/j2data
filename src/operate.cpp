@@ -3,6 +3,7 @@
 //
 
 #include "operate.h"
+#include <math.h>
 
 vec_dbl_t simpleMovingAverage(const vec_dbl_t &values, uint p)
 {
@@ -34,4 +35,48 @@ vec_dbl_t exponentialMovingAverage(const vec_dbl_t &values, double alpha)
         averages[k] = alpha * averages[k - 1] + (1.0 - alpha) * values[k];
     }
     return averages;
+}
+
+vec_dbl_t logReturn(const vec_dbl_t &values)
+{
+    auto n = values.size();
+    vec_dbl_t logReturns(n, 0);
+    for (uint k = 1; k < n; ++k)
+    {
+        logReturns[k] = log(values[k - 1] / values[k]);
+    }
+    return logReturns;
+}
+
+vec_dbl_t standardDeviation(const vec_dbl_t &values, uint p)
+{
+    auto n = values.size();
+    if (values.size() - p < 0)
+        return vec_dbl_t();
+    vec_dbl_t stddev(n, 0);
+    uint m = 0;
+    double sum = 0;
+    double squared_sum = 0;
+    for (uint k = 0; k < n; ++k)
+    {
+        sum += values[k];
+        squared_sum += values[k] * values[k];
+        if (k < p)
+            ++m;
+        else
+        {
+            sum -= values[k - p];
+            squared_sum -= values[k - p] * values[k - p];
+        }
+        stddev[k] = sqrt(squared_sum / m - (sum / m) * (sum / m));
+    }
+    return stddev;
+}
+
+vec_dbl_t volatility(const vec_dbl_t & values, uint p)
+{
+    // TODO annualization.. need to pass vector of times too, aka the timeseries index.
+    vec_dbl_t log_returns = logReturn(values);
+    vec_dbl_t volatilities = standardDeviation(log_returns, p);
+    return volatilities;
 }
