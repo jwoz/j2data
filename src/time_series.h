@@ -40,6 +40,8 @@ public:
 
     std::string asc_maximum_time() const;
 
+    void print() const;
+
 };
 
 

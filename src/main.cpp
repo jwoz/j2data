@@ -5,7 +5,7 @@
 #include <ctime>
 #include "time_series.h"
 #include <memory>
-#include "tools.hpp"
+#include "tools.h"
 
 using namespace std;
 
@@ -31,9 +31,11 @@ int main() {
     std::cout << ts_daily->symbol() << ": " << ts_daily->count() << " daily quotes" << std::endl;
     std::cout << ts_daily->asc_minimum_time() << std::endl;
     std::cout << ts_daily->asc_maximum_time() << std::endl;
+    ts_daily->print();
 
-    ts_daily->range(create_tm(2020,1,1), create_tm(2020,3,1));
-
+    std::cout << "Extract sub range" << std::endl;
+    auto ts_sub = ts_daily->range(create_tm(2020,1,1), create_tm(2020,3,1));
+    ts_sub->print();
 
     return 0;
 };

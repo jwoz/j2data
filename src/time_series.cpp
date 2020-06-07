@@ -5,6 +5,7 @@
 #include "iostream"
 #include "time_series.h"
 #include "csv.h"
+#include "tools.h"
 #include <ctime>
 #include <map>
 #include <utility>
@@ -69,12 +70,11 @@ std::unique_ptr<TimeSeries> TimeSeries::range(const tm &t0, const tm &t1) const 
     auto last = m_times.upper_bound(t1);
 
     map_time_t v_times(first, last);
-    vec_dbl_t v_open;
-    vec_dbl_t v_close;
-    vec_dbl_t v_high;
-    vec_dbl_t v_low;
     int i0 = first->second;
-    int i1 = first->second;
+    int i1 = last->second;
+
+    std::for_each(v_times.begin(), v_times.end(), [i0](std::pair<tm, int> p) -> std::pair<tm, int> { return std::pair<tm, int>(p.first, p.second - i0); });
+
 
     vec_vec_dbl_t data;
     for (const auto &it : m_data) {
@@ -105,18 +105,26 @@ tm TimeSeries::maximum_time() const {
     return m_times.cend()->first;
 }
 
-std::string zero_padded(int v) {
-    if (v > 9) return std::to_string(v);
-    return "0" + std::to_string(v);
-};
 
 std::string TimeSeries::asc_minimum_time() const {
     tm first = m_times.cbegin()->first;
-    return std::to_string(first.tm_year) + zero_padded(first.tm_mon + 1) + zero_padded(first.tm_mday) + "T" + zero_padded(first.tm_hour) + zero_padded(first.tm_min);
+    return to_string_tm(first);
 }
 
 std::string TimeSeries::asc_maximum_time() const {
-    tm first = m_times.crbegin()->first;
-    return std::to_string(first.tm_year) + zero_padded(first.tm_mon + 1) + zero_padded(first.tm_mday) + "T" + zero_padded(first.tm_hour) + zero_padded(first.tm_min);
+    tm last = m_times.crbegin()->first;
+    return to_string_tm(last);
+}
+
+void TimeSeries::print() const {
+    for (const auto &it : m_times) {
+        std::cout << to_string_tm(it.first);
+        for (const auto &id : m_data) {
+            std::cout << " ";
+            std::cout << id[it.second];
+        }
+        std::cout << std::endl;
+    }
+
 }
 
