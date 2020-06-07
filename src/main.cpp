@@ -6,6 +6,7 @@
 #include "time_series.h"
 #include <memory>
 #include "tools.h"
+#include "operate.h"
 
 using namespace std;
 
@@ -37,6 +38,8 @@ int main()
     std::cout << "Extract sub range" << std::endl;
     auto ts_sub = ts_daily->range(create_tm(2020, 1, 1), create_tm(2020, 3, 1));
     ts_sub->print();
+
+    vec_dbl_t sma = movingAverage(*(ts_sub->get("Open")), 20);
 
     return 0;
 };

@@ -13,13 +13,14 @@
 #include "types.h"
 
 
-class TimeSeries {
+class TimeSeries
+{
     std::string m_symbol;
     map_time_t m_times;
     std::vector<std::string> m_columns;
     vec_vec_dbl_t m_data;
 public:
-    TimeSeries(map_time_t times, vec_string_t columns, vec_vec_dbl_t  data);
+    TimeSeries(map_time_t times, vec_string_t columns, vec_vec_dbl_t data);
 
     explicit TimeSeries(const std::string &filename, const std::string &period = "1d");
 
@@ -41,6 +42,10 @@ public:
     std::string asc_maximum_time() const;
 
     void print() const;
+
+    const vec_dbl_t * get(const std::string &name) const;
+
+    void add(const std::string &name, const vec_dbl_t &data);
 
 };
 

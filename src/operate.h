@@ -7,7 +7,7 @@
 
 #include "types.h"
 
-dbl_vec_t movingAverage( dbl_vec_t & prices, uint p);
+vec_dbl_t movingAverage(const vec_dbl_t & values, uint p);
 
 
 #endif //J2DATA_OPERATE_H

@@ -19,7 +19,7 @@ TimeSeries::TimeSeries(map_time_t times, vec_string_t columns, vec_vec_dbl_t dat
 TimeSeries::TimeSeries(const std::string &filename, const std::string &period)
 {
     io::CSVReader<9> in(filename);
-    m_columns = {"open", "high", "how", "close"};
+    m_columns = {"open", "close", "high", "low"};
     std::string Datetime;
     double Open, High, Low, Close;
     int Volume;
@@ -143,5 +143,21 @@ void TimeSeries::print() const
         std::cout << std::endl;
     }
 
+}
+
+void TimeSeries::add(const std::string &name, const vec_dbl_t &data)
+{
+    m_columns.push_back(name);
+    m_data.push_back(data);
+}
+
+const vec_dbl_t * TimeSeries::get(const std::string & name) const
+{
+    auto index = findElement(m_columns, name);
+    if (!index.first){
+        std::cout << "ERROR: column " << name << " does not exist in time series." << std::endl;
+        return nullptr;
+    }
+    return & m_data[index.second];
 }
 
